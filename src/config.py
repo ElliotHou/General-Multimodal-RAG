@@ -18,13 +18,17 @@ class AppConfig:
     root_dir: Path
     data_dir: Path
     model_name: str
+    llm_backend: str
     data_mode: str
     batch_size: int
     abs_threshold: float
     diff_threshold: float
     use_gpu_faiss: bool = True
-    k_search: int = 12
+    k_search: int = 20
     top_k: int = 3
+    image_weight: float = 0.55
+    text_weight: float = 0.35
+    keyword_weight: float = 0.10
 
     @property
     def paths(self) -> DataPaths:
@@ -57,6 +61,7 @@ def load_config(
     abs_threshold: float | None = None,
     diff_threshold: float | None = None,
     model_name: str = "Qwen/Qwen2.5-3B-Instruct",
+    llm_backend: str = "local",
 ) -> AppConfig:
     root = resolve_project_root()
     data_dir = root / "data" / "iu_xray"
@@ -65,6 +70,7 @@ def load_config(
         root_dir=root,
         data_dir=data_dir,
         model_name=model_name,
+        llm_backend=llm_backend,
         data_mode=data_mode,
         batch_size=batch_size,
         abs_threshold=abs_threshold if abs_threshold is not None else 0.07,

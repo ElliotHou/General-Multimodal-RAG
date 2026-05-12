@@ -254,6 +254,10 @@ def parse_args():
                         help="服务器端口 (默认: 7860)")
     parser.add_argument("--share", action="store_true",
                         help="生成公网链接 (24小时有效)")
+    parser.add_argument("--llm-backend", default="local", choices=["local", "api", "none"],
+                        help="LLM backend: local / api / none")
+    parser.add_argument("--model-name", default="Qwen/Qwen2.5-3B-Instruct",
+                        help="Local Transformers model name")
     return parser.parse_args()
 
 
@@ -266,6 +270,8 @@ if __name__ == "__main__":
         batch_size=args.batch_size,
         abs_threshold=args.abs_threshold,
         diff_threshold=args.diff_threshold,
+        model_name=args.model_name,
+        llm_backend=args.llm_backend,
     )
     print(f"运行模式: {cfg.data_mode}")
     print(f"ABS_THRESHOLD: {cfg.abs_threshold}")
